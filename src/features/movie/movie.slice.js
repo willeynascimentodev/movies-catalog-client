@@ -2,40 +2,41 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import movieService from './movie.service'
 
 const initialState =  {
-    movies: movies ? movies : null,
-    movie: movie ? movie : null,
+    movies: [],
+    movie: {},
     isError: false,
     isSuccess: false,
+    isLoading: false,
     message: ''
 }
 
 export const updateDB = createAsyncThunk('movies/update/db', async (thunkAPI) => {
     try {
-        return await movieService.updateDB()
+        return await movieService.updateDB();
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message)
-        || error.message || error.toString()
-        return thunkAPI.rejectWithValue(message)
+        || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
     }
 })
 
-export const findAll = createAsyncThunk('movies', async (skip, limit, thunkAPI) => {
+export const findAll = createAsyncThunk('movies/findAll', async (skip, limit, thunkAPI) => {
     try {
         return await movieService.findAll(skip, limit)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message)
-        || error.message || error.toString()
-        return thunkAPI.rejectWithValue(message)
+        || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
     }
 })
 
-export const findOne = createAsyncThunk('movies/', async (id, thunkAPI) => {
+export const findOne = createAsyncThunk('movies/findOne', async (id, thunkAPI) => {
     try {
-        return await movieService.findOne(id)
+        return await movieService.findOne(id);
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message)
-        || error.message || error.toString()
-        return thunkAPI.rejectWithValue(message)
+        || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
     }
 })
 
@@ -43,19 +44,14 @@ export const movieSlice = createSlice({
     name: 'movies',
     initialState, 
     reducers: {
-        reset: (state) => {
-            state.isLoading = false
-            state.isError = false
-            state.isSuccess = false
-            state.message = ''
-        }
+        reset: (state) => initialState
     },
     extraReducers: (builder) => {
         builder.addCase(updateDB.pending, (state) => {
             state.isLoading = true
         })
         
-        .addCase(updateDB.fulfilled, (state, action) => {
+        .addCase(updateDB.fulfilled, (state) => {
             state.isloading = false
             state.isSuccess = true
         })
@@ -103,5 +99,5 @@ export const movieSlice = createSlice({
     }
 })
 
-export const { reset } = movieSlice.actions
-export default movieSlice.reducer
+export const { reset } = movieSlice.actions;
+export default movieSlice.reducer;

@@ -3,11 +3,19 @@ import movieService from './movie.service'
 
 const initialState =  {
     movies: [],
+    moviesTotal: 0,
     movie: {},
+    searchMovie: '',
+    skip: 0,
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: ''
+}
+
+var aditionalState = {
+    search: '',
+    skip: 0
 }
 
 export const updateDB = createAsyncThunk('movies/update/db', async (thunkAPI) => {
@@ -20,9 +28,11 @@ export const updateDB = createAsyncThunk('movies/update/db', async (thunkAPI) =>
     }
 })
 
-export const findAll = createAsyncThunk('movies/findAll', async (skip, limit, thunkAPI) => {
+export const findAll = createAsyncThunk('movies/findAll', async (data, thunkAPI) => {
+    aditionalState.search = data.titulo;
+    aditionalState.skip = data.skip;
     try {
-        return await movieService.findAll(skip, limit)
+        return await movieService.findAll(data.titulo, data.skip, data.limit)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message)
         || error.message || error.toString();
@@ -67,9 +77,12 @@ export const movieSlice = createSlice({
         })
         
         .addCase(findAll.fulfilled, (state, action) => {
-            state.isloading = false
+            state.isLoading = false
             state.isSuccess = true
-            state.movies = action.payload
+            state.movies = action.payload.movies
+            state.moviesTotal = action.payload.total
+            state.searchMovie = aditionalState.search;
+            state.skip = aditionalState.skip;
         })
         
         .addCase(findAll.rejected, (state, action) => {
@@ -77,6 +90,8 @@ export const movieSlice = createSlice({
             state.isError = true
             state.message = action.payload
             state.movies = null
+            state.searchMovie = aditionalState.search;
+            state.skip = aditionalState.skip;
         })
         .addCase(findOne.pending, (state) => {
             state.isLoading = true

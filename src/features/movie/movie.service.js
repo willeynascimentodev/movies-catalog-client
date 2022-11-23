@@ -8,14 +8,13 @@ const updateDB = async () => {
     return response.data;
 }
 
-const findAll = async (skip = 0, limit = null) => {
-    const response = await axios.get(`${ API_URL }/movies`);
+const findAll = async (titulo = '', skip = null, limit = null) => {
+    const response = await axios.get(`${ API_URL }/movies?titulo=${titulo}&skip=${skip}&limit=${limit}`);
     return response.data;
 }
 
 const findOne = async (id) => {
     const response = await axios.get(`${ API_URL }/movies/${id}`);
-    console.log('oi');
     console.log(response.data);
     return response.data;
 }

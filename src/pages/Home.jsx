@@ -1,29 +1,44 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { findAll, reset } from '../features/movie/movie.slice'
+import { findAll } from '../features/movie/movie.slice'
+import  CardMovie  from '../components/CardMovie' 
+import  Pag  from '../components/Pagination' 
+import Spinner from 'react-bootstrap/Spinner';
+import  Search  from '../components/Search' 
 
-
-function Home () {
-    const { movies, isSuccess  } = useSelector((state) => state.movie);
+function Home ({perPage}) {
+    const { movies, moviesTotal, isLoading, searchMovie  } = useSelector((state) => state.movie);
 
     const dispatch = useDispatch();
 
-    
     useEffect(() => {
-        return () => {
-            if(isSuccess) {
-                dispatch(reset())
-            }
+        const params = {
+            titulo: '',
+            skip: 0,
+            limit: 10
         }
-    }, [dispatch, isSuccess])
-    
-
-    useEffect(() => {
-        dispatch(findAll(0, 10));
+        dispatch(findAll(params));
+        
     }, [dispatch])
 
     return (
-        <h1>Home</h1>
+        <>
+        <Search perPage={perPage}/>
+            <div className="contain-movies flex-container">
+                { !isLoading ? <Pag total={moviesTotal} perPage={perPage}/> : null }
+                {
+                     
+                    !isLoading && movies.length > 0 ? 
+
+                    movies.map((movie) => (
+                        <CardMovie key={movie._id} movie={movie} /> 
+                    )) : <Spinner animation="border" variant="light" /> 
+                }  
+                { !isLoading ? <Pag total={moviesTotal} perPage={10}/> : null }
+                
+            </div>
+         
+        </>
     )
 }
 

@@ -1,4 +1,4 @@
-#root, .contain-all, body{
+html, body, #root, .contain-all{
   width: 100%;
   background-color: #000;
 }
@@ -22,6 +22,10 @@ header {
   text-align: center;
   
 }
+h2, h3 {
+  color: #fff;
+  margin-bottom: 40px !important;
+}
 
 .btn-primary {
   background-color: red !important;
@@ -42,7 +46,7 @@ input {
 .pagination {
   display: block !important;
   margin: auto !important;
-  margin-top: 10px;
+  margin-top: 20px  !important;
   margin-bottom: 10px;
 }
 
@@ -59,4 +63,8 @@ input {
   white-space: nowrap;
   text-align: center;
   margin: auto;
+}
+
+.card-body {
+  min-height: 300px !important
 }

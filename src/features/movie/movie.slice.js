@@ -18,7 +18,7 @@ var aditionalState = {
     skip: 0
 }
 
-export const updateDB = createAsyncThunk('movies/update/db', async (thunkAPI) => {
+export const updateDB = createAsyncThunk('movies/update/db', async (_, thunkAPI) => {
     try {
         return await movieService.updateDB();
     } catch (error) {
@@ -62,12 +62,12 @@ export const movieSlice = createSlice({
         })
         
         .addCase(updateDB.fulfilled, (state) => {
-            state.isloading = false
+            state.isLoading = false
             state.isSuccess = true
         })
         
         .addCase(updateDB.rejected, (state, action) => {
-            state.isloading = false
+            state.isLoading = false
             state.isError = true
             state.message = action.payload
         })
@@ -86,7 +86,7 @@ export const movieSlice = createSlice({
         })
         
         .addCase(findAll.rejected, (state, action) => {
-            state.isloading = false
+            state.isLoading = false
             state.isError = true
             state.message = action.payload
             state.movies = null
@@ -98,13 +98,13 @@ export const movieSlice = createSlice({
         })
         
         .addCase(findOne.fulfilled, (state, action) => {
-            state.isloading = false
+            state.isLoading = false
             state.isSuccess = true
             state.movie = action.payload
         })
         
         .addCase(findOne.rejected, (state, action) => {
-            state.isloading = false
+            state.isLoading = false
             state.isError = true
             state.message = action.payload
             state.movie = null

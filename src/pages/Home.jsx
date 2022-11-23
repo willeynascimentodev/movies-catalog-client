@@ -25,14 +25,19 @@ function Home ({perPage}) {
         <>
         <Search perPage={perPage}/>
             <div className="contain-movies flex-container">
+                <h2>Filmes</h2>
                 { !isLoading ? <Pag total={moviesTotal} perPage={perPage}/> : null }
                 {
                      
-                    !isLoading && movies.length > 0 ? 
+                    !isLoading ? 
 
-                    movies.map((movie) => (
-                        <CardMovie key={movie._id} movie={movie} /> 
-                    )) : <Spinner animation="border" variant="light" /> 
+
+                        movies.length > 0 ? 
+                        movies.map((movie) => (
+                            <CardMovie key={movie._id} movie={movie} /> 
+                        )) : <h2>Nenhum resultado encontrado...</h2>
+                        
+                    : <Spinner animation="border" variant="light" /> 
                 }  
                 { !isLoading ? <Pag total={moviesTotal} perPage={10}/> : null }
                 

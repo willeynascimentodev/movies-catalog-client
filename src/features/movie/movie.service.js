@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:3000'
-const API_KEY = 'mapoj321khy'
+const API_URL = process.env.REACT_APP_API_URL;
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 const updateDB = async () => {
     const response = await axios.get(`${ API_URL }/movies/update/db`, { headers: { 'api_key': API_KEY } });

@@ -21,7 +21,6 @@ function ModalMovie({modalShow, setModalShow}) {
 
   return (
     <>
-      {/* <Button onClick={() => setModalShow(true)}>Large modal</Button> */}
       <Modal
         size="lg"
         show={modalShow}

@@ -19,6 +19,7 @@ function Home ({perPage}) {
             skip: 0,
             limit: 10
         }
+        console.log(process.env.API_URL);
         dispatch(findAll(params));
         
     }, [dispatch])

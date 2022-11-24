@@ -13,14 +13,14 @@ function Pag({total, perPage}) {
 
     const changePage = (e) => {
 
-        const pag = parseInt(e.target.name);
-
+        const pag = parseInt(e.target.getAttribute('value'));
+        
         const params = {
             titulo: searchMovie,
             skip: !pag ? 0 : (pag * perPage) - perPage,
             limit: perPage
         }
-        console.log(params);
+        
         dispatch(reset);
         dispatch(findAll(params));
         
@@ -30,7 +30,7 @@ function Pag({total, perPage}) {
     
     for (let number = 1; number <= Math.ceil(total/perPage); number++) {
         items.push(
-            <Pagination.Item name={number} key={number} active={number === active} onClick={changePage}>
+            <Pagination.Item value={number} key={number} active={number === active} onClick={changePage}>
                 {number}
             </Pagination.Item>,
         );
